@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import AuthorQuiz from './AuthorQuiz';
 import * as serviceWorker from './serviceWorker';
+import {shuffle, sample} from 'underscore';
 
 const authors = [
   {
@@ -10,14 +11,52 @@ const authors = [
     imageUrl : 'images/authors/marktwain.jfif',
     imageSource : 'Wikimedia Commons',
     books: ['The Adventures of Huckleberry Finn', 'Life in the Mississippie', 'Roughing it']
-  }
+  },
+  {
+    name : 'J.k Rowling',
+    imageUrl : 'images/authors/jkrowling.jfif',
+    imageSource : 'Wikimedia Commons',
+    books: ['Harry Potter and the Sorcerers Stone']
+  },
+  {
+    name : 'Stephen King',
+    imageUrl : 'images/authors/stephenking.jfif',
+    imageSource : 'Wikimedia Commons',
+    books: ['The Shining', 'IT']
+  },
+  {
+    name : 'Charles Dickens',
+    imageUrl : 'images/authors/charlesdickens.jfif',
+    imageSource : 'Wikimedia Commons',
+    books: ['David Copperfield', 'A Tale of Two Cities']
+  },
+  {
+    name : 'William Shakespeare',
+    imageUrl : 'images/authors/williamshake.jfif',
+    imageSource : 'Wikimedia Commons',
+    books: ['Hamlet', 'Macbeth', 'Romeo and Juliet']
+  },
+
 ]
 
-const state = {
-  turnData: {
-    author : authors[0],
-    books:  authors[0].books
+function getTurnData(authors) {
+  // select a set of possible answers
+  const allBooks = authors.reduce((p,c,i) => {
+    return p.concat(c.books);
+  }, []);
+
+  const fourRandomBooks = shuffle(allBooks).slice(0,4);
+  const answer = sample(fourRandomBooks);
+
+  return {
+    books : fourRandomBooks,
+    author : authors.find((author) => author.books.some((title) => title === answer))
   }
+}
+
+
+const state = {
+  turnData: getTurnData(authors)
 };
 
 ReactDOM.render(
