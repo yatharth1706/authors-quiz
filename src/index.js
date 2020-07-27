@@ -5,6 +5,7 @@ import {BrowserRouter, Route} from 'react-router-dom';
 import AuthorQuiz from './AuthorQuiz';
 import * as serviceWorker from './serviceWorker';
 import {shuffle, sample} from 'underscore';
+import AddAuthor  from './AddAuthor';
 
 // now we need a system to define the order of the particular component
 
@@ -69,19 +70,15 @@ function onAnswerSelected(title) {
   render();
 }
 
-function AddAuthor({match}) {
-  return (
-    <div className="container text-center">
-      <h1>Add Author</h1>
-  <p>{JSON.stringify(match)}</p>
-    </div>
-  )
-}
-
 function App() {
   return (
     <AuthorQuiz {...state} onAnswerSelected = {onAnswerSelected} />
   )
+}
+
+
+function AuthorWrapper() {
+  return <AddAuthor addAuthor = {console.log} />
 }
 
 function render() {
@@ -89,7 +86,7 @@ function render() {
     <React.StrictMode>
       <BrowserRouter>
         <Route exact path = "/" component = {App} />
-        <Route path = "/add" component = {AddAuthor} />
+        <Route path = "/add" component = {AuthorWrapper} />
       </BrowserRouter>
       
     </React.StrictMode>,
