@@ -1,6 +1,4 @@
-.App {
-  text-align: center;
-}
+
 
 .App-logo {
   height: 40vmin;
@@ -26,6 +24,19 @@
 
 .App-link {
   color: #61dafb;
+}
+
+.answer {
+  background-color: #F0F7FD;
+  border-color: #D0E3F0;
+  margin-bottom: 20px;
+  padding: 15px 30px 15px 30px;
+  border-left: 5px solid #d0f0f0;
+  cursor: pointer;
+}
+
+.answer:hover {
+  background-color: #D0E3F0;
 }
 
 @keyframes App-logo-spin {
