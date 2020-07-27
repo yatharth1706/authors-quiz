@@ -50,21 +50,32 @@ function getTurnData(authors) {
 
   return {
     books : fourRandomBooks,
-    author : authors.find((author) => author.books.some((title) => title === answer))
+    author : authors.find((author) => author.books.some((title) => title === answer)),
   }
 }
 
 
 const state = {
-  turnData: getTurnData(authors)
+  turnData: getTurnData(authors),
+  highlight : '',
 };
 
-ReactDOM.render(
-  <React.StrictMode>
-    <AuthorQuiz {...state}/>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+function onAnswerSelected(title) {
+  const correct = state.turnData.author.books.some((book) => book === title);
+  state.highlight = correct ? 'correct' : 'wrong';
+  render();
+}
+
+function render() {
+  ReactDOM.render(
+    <React.StrictMode>
+      <AuthorQuiz {...state} onAnswerSelected = {onAnswerSelected} />
+    </React.StrictMode>,
+    document.getElementById('root')
+  );
+}
+
+render();
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
