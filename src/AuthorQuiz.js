@@ -2,6 +2,7 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import PropTypes from 'prop-types';
 
 function Hero() {
   return (
@@ -45,6 +46,19 @@ function Turn({author, books, highlight, onAnswerSelected}) {
       </div>
     </div>
   )
+}
+
+// this is for validation of props
+Turn.propTypes = {
+  author: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    imageUrl : PropTypes.string.isRequired,
+    imageSource : PropTypes.string.isRequired,
+    books: PropTypes.arrayOf(PropTypes.string).isRequired
+  }),
+  books : PropTypes.arrayOf(PropTypes.string).isRequired,
+  onAnswerSelected : PropTypes.func.isRequired,
+  highlight: PropTypes.string.isRequired
 }
 
 function Continue() {

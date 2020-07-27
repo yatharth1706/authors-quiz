@@ -1,9 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
+import {BrowserRouter, Route} from 'react-router-dom';
 import AuthorQuiz from './AuthorQuiz';
 import * as serviceWorker from './serviceWorker';
 import {shuffle, sample} from 'underscore';
+
+// now we need a system to define the order of the particular component
 
 const authors = [
   {
@@ -66,10 +69,29 @@ function onAnswerSelected(title) {
   render();
 }
 
+function AddAuthor({match}) {
+  return (
+    <div className="container text-center">
+      <h1>Add Author</h1>
+  <p>{JSON.stringify(match)}</p>
+    </div>
+  )
+}
+
+function App() {
+  return (
+    <AuthorQuiz {...state} onAnswerSelected = {onAnswerSelected} />
+  )
+}
+
 function render() {
   ReactDOM.render(
     <React.StrictMode>
-      <AuthorQuiz {...state} onAnswerSelected = {onAnswerSelected} />
+      <BrowserRouter>
+        <Route exact path = "/" component = {App} />
+        <Route path = "/add" component = {AddAuthor} />
+      </BrowserRouter>
+      
     </React.StrictMode>,
     document.getElementById('root')
   );
