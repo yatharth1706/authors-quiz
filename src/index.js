@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, withRouter} from 'react-router-dom';
 import AuthorQuiz from './AuthorQuiz';
 import * as serviceWorker from './serviceWorker';
 import {shuffle, sample} from 'underscore';
@@ -58,11 +58,15 @@ function getTurnData(authors) {
   }
 }
 
+function resetState() {
+  
+  return {
+    turnData: getTurnData(authors),
+    highlight : '',
+  }
+}
 
-const state = {
-  turnData: getTurnData(authors),
-  highlight : '',
-};
+let state = resetState();
 
 function onAnswerSelected(title) {
   const correct = state.turnData.author.books.some((book) => book === title);
@@ -72,14 +76,21 @@ function onAnswerSelected(title) {
 
 function App() {
   return (
-    <AuthorQuiz {...state} onAnswerSelected = {onAnswerSelected} />
+    <AuthorQuiz {...state} onAnswerSelected = {onAnswerSelected} onContinue = {() => {
+      state = resetState();
+      render();
+    }} />
   )
 }
 
 
-function AuthorWrapper() {
-  return <AddAuthor addAuthor = {console.log} />
-}
+const AuthorWrapper = withRouter(({ history }) => 
+    <AddAuthor addAuthor = {(author) => {
+      authors.push(author);
+      history.push('/');
+    }} />
+); 
+
 
 function render() {
   ReactDOM.render(

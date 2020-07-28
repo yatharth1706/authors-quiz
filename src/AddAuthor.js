@@ -8,20 +8,30 @@ import './AddAuthor.css';
 function AddAuthor({match, addAuthor}) {
     const [name, setName] = useState('');
     const [imageUrl, setimageUrl] = useState('');
-    
+    const [books, setBooks] = useState([]);
+    const [tempBook, settempBook] = useState('');
 
     function onFieldChange(e) {
         if(e.target.name === "name"){
             setName(e.target.value);
         }else if(e.target.name === "imageUrl"){
             setimageUrl(e.target.value);
+        }else if(e.target.name === "tempBook"){
+            settempBook(e.target.value);
         }
         console.log(e.target);
     }
 
     function onAddAuthor(e) {
         e.preventDefault();
-        addAuthor({name, imageUrl});
+        addAuthor({name, imageUrl, books});
+    }
+
+    function handleAddBook(e) {
+        e.preventDefault();
+        let temp = [...books].concat(tempBook);
+        setBooks(temp);
+        settempBook('');
     }
 
     return (
@@ -35,6 +45,12 @@ function AddAuthor({match, addAuthor}) {
             <div className = "addAuthorForm_input">
                 <label htmlFor = "imageUrl">Image Url</label>
                 <input type="text" name="imageUrl" value={imageUrl} onChange = {onFieldChange}/>
+            </div>
+            <div className = "addAuthorForm_input">
+                {books.map(book => <p key={book}>{book}</p>)}
+                <label htmlFor = "tempBook">Add Books</label>
+                <input type="text" name="tempBook" value={tempBook} onChange = {onFieldChange}/>
+                <input type="button" onClick = {handleAddBook} value="+"/>
             </div>
             <button>
                 Add Author
